@@ -1,0 +1,5 @@
+Title,FirstName,LastName,Company,DisplayName,customerRfc,Phone,Mobile,Email,WebSite,Street,City,State,Code,Country,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,Balance,Status
+Cia,Jorge,Lozano,Supermercados Internacionales HEB S.A,Tiendas HEB,SIH9511279T7,,,carton@gmail.com,,Carlos Loyola,Monterrey,NL,4398899,Mexico,Herrera 300,Monterrey,NL,32333,Mexico,15000.00,true
+Cia,Mario,Contreras,Tiendas Soriana S.A.,Tiendas Soriana,TSO991022PB6,,,delta@delta.com,,Benito Juarez 408,Monterrey,NL,223344,Mexico,Herrera 300,Monterrey,NL,32333,Mexico,20000.00,true
+Cia,Susana ,Martinez,Silvia Puente,Quitakilos,PUHS6505319L9,,,viveres@hotmail.com,,Profirio Diaz 333,Monterrey,NL,233322,Mexico,Herrera 300,Monterrey,NL,32333,Mexico,25600.00,true
+Cia,Tamara,Caceres,Super Caceres S.a.,Cadena Caceres,,,,cajas@cajas.com,,Reyes 324,Monterrey,NL,233333,Mexico,Herrera 300,Monterrey,NL,32333,Mexico,15666.00,false

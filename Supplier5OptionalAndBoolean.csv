@@ -1,0 +1,5 @@
+Title,FirstName,LastName,Company,DisplayName,supplierRfc,Phone,Mobile,Email,WebSite,Street,City,State,Code,Country,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,Balance,Status
+Cia,Edgar,Montoya,Cartonera Montoya S.A.,Montoya Cia,GAMR751206AT3,,,carton@gmail.com,,,,,,,,,,,,15000.00,true
+Cia,Carlos,Martinex,Bolsas Delta S.A.,Bolsas Delta S.A.,GVI710915GZA,,,delta@delta.com,,,,,,,,,,,,20000.00,true
+Cia,Flor,Silvestre,General de Viveres S.A.,General de Viveres S.A.,TMO0606127Z6,,,viveres@hotmail.com,,,,,,,,,,,,25600.00,true
+Cia,Eduardo ,Caceres,Cajas de Carton S.A.,CCMSA,,,,cajas@cajas.com,,,,,,,,,,,,15666.00,false

@@ -1,0 +1,5 @@
+Title,FirstName,LastName,Company,DisplayName,Phone,Mobile,Email,WebSite,Street,City,State,Code,Country,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,Balance
+Cia,Edgar,Montoya,Cartonera Montoya S.A.,Montoya Cia,83895467,80122336,edgar@gmail.com,www.montoya.com,Santo Tomas,Monterrey,N.L,33434,Mexico,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,15000.00
+Cia,Carlos,Martinex,Bolsas Delta S.A.,Bolsas Delta S.A.,83446555,81145566,carlos@gmail.com,delta.com,Villagran,Monterrey,N.L,33434,Mexico,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,20000.00
+Cia,Flor,Silvestre,General de Viveres S.A.,General de Viveres S.A.,44896655,44896655,viveres@general.com,viversw.com,Lerdo de Tejada,Monterrey,N.L,456622,Mexico,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,25600.00
+Cia,Eduardo ,Caceres,Cajas de Carton S.A.,CCMSA,56998895,56661125,cajas@yahoo.co,cajas.com,Diego de Montemayor,Monterrey,N.L,45666,Mexico,ShippingStreet,ShippingCity,ShippingState,ShippingCode,ShippingCountry,15666.00

@@ -2,8 +2,12 @@ package com.vedatech.pro.service.customer;
 
 import com.vedatech.pro.model.customer.Customer;
 import com.vedatech.pro.repository.customer.CustomerDao;
+import com.vedatech.pro.service.CfdiService;
+import com.vedatech.pro.service.CfdiServiceImp;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,4 +49,6 @@ public class CustomerServiceImp implements CustomerService {
     public void saveAll(List<Customer> object) {
         customerDao.saveAll(object);
     }
+
+
 }

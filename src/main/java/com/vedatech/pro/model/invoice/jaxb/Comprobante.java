@@ -567,6 +567,8 @@ public class Comprobante {
     protected List<Complemento> complemento;
     @XmlElement(name = "Addenda", namespace = "http://www.sat.gob.mx/cfd/3")
     protected Comprobante.Addenda addenda;
+//    @XmlElement(name = "FacturaInterfactura", namespace = "http://www.sat.gob.mx/cfd/3")
+//    protected Comprobante.Addenda.FacturaInterfactura facturaInterfactura;
     @XmlAttribute(name = "Version", required = true)
     protected String version;
     @XmlAttribute(name = "Serie")
@@ -1235,12 +1237,24 @@ public class Comprobante {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "any"
+        "any",
+        "facturaInterfactura"
     })
     public static class Addenda {
 
         @XmlAnyElement(lax = true)
         protected List<Object> any;
+
+        @XmlElement(name = "FacturaInterfactura", namespace = "https://www.interfactura.com/Schemas/Documentos", required = true)
+        protected Comprobante.Addenda.FacturaInterfactura facturaInterfactura;
+
+        public FacturaInterfactura getFacturaInterfactura() {
+            return facturaInterfactura;
+        }
+
+        public void setFacturaInterfactura(FacturaInterfactura facturaInterfactura) {
+            this.facturaInterfactura = facturaInterfactura;
+        }
 
         /**
          * Gets the value of the any property.
@@ -1271,7 +1285,201 @@ public class Comprobante {
             return this.any;
         }
 
+        @XmlAccessorType(value = XmlAccessType.FIELD)
+        @XmlType(name = "" )
+        public static class FacturaInterfactura {
+
+            @XmlAttribute(name = "Id", required = true)
+            protected String Id;
+
+            @XmlAttribute(name = "TipoDocumento", required = true)
+            protected String TipoDocumento;
+
+            @XmlElement(name = "Emisor", namespace = "https://www.interfactura.com/Schemas/Documentos", required = true)
+            protected Comprobante.Addenda.FacturaInterfactura.Emisor emisor;
+
+            @XmlElement(name = "Encabezado", namespace = "https://www.interfactura.com/Schemas/Documentos", required = true)
+            protected Comprobante.Addenda.FacturaInterfactura.Encabezado encabezado;
+
+
+            public String getId() {
+                return Id;
+            }
+
+            public void setId(String id) {
+                Id = id;
+            }
+
+            public String getTipoDocumento() {
+                return TipoDocumento;
+            }
+
+            public void setTipoDocumento(String tipoDocumento) {
+                TipoDocumento = tipoDocumento;
+            }
+
+            public Emisor getEmisor() {
+                return emisor;
+            }
+
+            public void setEmisor(Emisor emisor) {
+                this.emisor = emisor;
+            }
+
+            public Encabezado getEncabezado() {
+                return encabezado;
+            }
+
+            public void setEncabezado(Encabezado encabezado) {
+                this.encabezado = encabezado;
+            }
+
+            @XmlAccessorType(value = XmlAccessType.FIELD)
+            @XmlType(name = "" )
+            public static class Emisor {
+
+                @XmlAttribute(name = "NumProveedor", required = true)
+                protected String NumProveedor;
+
+                public String getNumProveedor() {
+                    return NumProveedor;
+                }
+
+                public void setNumProveedor(String numProveedor) {
+                    NumProveedor = numProveedor;
+                }
+            }
+
+            @XmlAccessorType(value = XmlAccessType.FIELD)
+            @XmlType(name = "" )
+            public static class Encabezado {
+
+                @XmlAttribute(name = "NumProveedor", required = true)
+                protected String NumProveedor;
+                @XmlAttribute(name = "NumSucursal", required = true)
+                protected String NumSucursal;
+                @XmlAttribute(name = "Fecha", required = true)
+                protected XMLGregorianCalendar fecha;
+                @XmlAttribute(name = "FechaVencimiento", required = true)
+                protected XMLGregorianCalendar fechaVencimiento;
+
+                @XmlElement(name ="Cuerpo",  namespace = "https://www.interfactura.com/Schemas/Documentos", required = true)
+                protected List<Cuerpo> cuerpos;
+
+                public String getNumProveedor() {
+                    return NumProveedor;
+                }
+
+                public void setNumProveedor(String numProveedor) {
+                    NumProveedor = numProveedor;
+                }
+
+                public String getNumSucursal() { return NumSucursal; }
+
+                public void setNumSucursal(String numSucursal) {
+                    NumSucursal = numSucursal;
+                }
+
+                public XMLGregorianCalendar getFecha() {
+                    return fecha;
+                }
+
+                public void setFecha(XMLGregorianCalendar fecha) {
+                    this.fecha = fecha;
+                }
+
+                public XMLGregorianCalendar getFechaVencimiento() {
+                    return fechaVencimiento;
+                }
+
+                public void setFechaVencimiento(XMLGregorianCalendar fechaVencimiento) {
+                    this.fechaVencimiento = fechaVencimiento;
+                }
+
+                public List<Cuerpo> getCuerpos() {
+                    return cuerpos;
+                }
+
+                public void setCuerpos(List<Cuerpo> cuerpos) {
+                    this.cuerpos = cuerpos;
+                }
+            }
+
+            @XmlAccessorType(value = XmlAccessType.FIELD)
+            @XmlType(name = "" )
+            public static class Cuerpo {
+
+                @XmlAttribute(name = "Renglon", required = true)
+                protected String Renglon;
+
+                @XmlAttribute(name = "EAN13", required = true)
+                protected String EAN13;
+
+                @XmlAttribute(name = "Concepto", required = true)
+                protected String Concepto;
+
+                @XmlAttribute(name = "Cantidad", required = true)
+                protected String Cantidad;
+
+                @XmlAttribute(name = "SubTotal", required = true)
+                protected String Subtotal;
+
+                @XmlAttribute(name = "PUnitario", required = true)
+                protected String PUnitario;
+
+
+                public String getRenglon() {
+                    return Renglon;
+                }
+
+                public void setRenglon(String renglon) {
+                    Renglon = renglon;
+                }
+
+                public String getEAN13() {
+                    return EAN13;
+                }
+
+                public void setEAN13(String EAN13) {
+                    this.EAN13 = EAN13;
+                }
+
+                public String getConcepto() {
+                    return Concepto;
+                }
+
+                public void setConcepto(String concepto) {
+                    Concepto = concepto;
+                }
+
+                public String getCantidad() {
+                    return Cantidad;
+                }
+
+                public void setCantidad(String cantidad) {
+                    Cantidad = cantidad;
+                }
+
+                public String getSubtotal() {
+                    return Subtotal;
+                }
+
+                public void setSubtotal(String subtotal) {
+                    Subtotal = subtotal;
+                }
+
+                public String getPUnitario() {
+                    return PUnitario;
+                }
+
+                public void setPUnitario(String PUnitario) {
+                    this.PUnitario = PUnitario;
+                }
+            }
+        }
+
     }
+
 
 
     /**

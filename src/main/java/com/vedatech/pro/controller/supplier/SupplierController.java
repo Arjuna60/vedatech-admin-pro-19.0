@@ -1,10 +1,13 @@
 package com.vedatech.pro.controller.supplier;
 
 
+import com.vedatech.pro.model.accounting.AccountPolicy;
 import com.vedatech.pro.model.accounting.SubAccount;
 import com.vedatech.pro.model.supplier.Supplier;
+import com.vedatech.pro.repository.accounting.AccountPolicyDao;
 import com.vedatech.pro.repository.accounting.SubAccountDao;
 import com.vedatech.pro.repository.supplier.SupplierDao;
+import com.vedatech.pro.service.balance.BalanceService;
 import com.vedatech.pro.service.supplier.SupplierService;
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -24,11 +28,15 @@ public class SupplierController {
     public final SupplierService supplierService;
     public final SupplierDao supplierDao;
     public final SubAccountDao subAccountDao;
+    public final AccountPolicyDao accountPolicyDao;
+    public final BalanceService balanceService;
 
-    public SupplierController(SupplierService supplierService, SupplierDao supplierDao, SubAccountDao subAccountDao) {
+    public SupplierController(SupplierService supplierService, SupplierDao supplierDao, SubAccountDao subAccountDao, AccountPolicyDao accountPolicyDao, BalanceService balanceService) {
         this.supplierService = supplierService;
         this.supplierDao = supplierDao;
         this.subAccountDao = subAccountDao;
+        this.accountPolicyDao = accountPolicyDao;
+        this.balanceService = balanceService;
     }
 
     //-------------------Create a Bank Account--------------------------------------------------------
@@ -57,7 +65,6 @@ public class SupplierController {
 
            supplier.setBalanceToday( supplier.getBalance());
            Supplier newSupplier = supplierService.save(supplier);
-           subAccount2.setBalance(newSupplier.getBalanceToday());
            subAccountDao.save(subAccount2);
            headers.set("accepted ok","supplier account is ok");
            return new ResponseEntity<Supplier>(supplier, headers, HttpStatus.CREATED);
@@ -96,16 +103,28 @@ public class SupplierController {
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public ResponseEntity<Supplier> updateUser(@RequestBody Supplier supplier) {
 
+
+        BigDecimal accountingPolicyBalance = BigDecimal.valueOf(0.00);
         try {
             //   Bank currentBankAcc = bankService.findBankById(id);
             /* Se busca la subcuenta para agregar a la cuenta bancaria*/
-            SubAccount subAccount = subAccountDao.findById(supplier.getSubAccount().getId()).get();
 
-            supplier.setBalanceToday(supplier.getBalance());
-//            supplierService.save(supplier);
-            subAccount.setBalance( supplier.getBalanceToday());
-            subAccountDao.save(subAccount);
-           Supplier suppliernew = supplierDao.save(supplier);
+            if (supplier.getSubAccount().getId() != null) {
+                SubAccount subAccount = subAccountDao.findById(supplier.getSubAccount().getId()).get();
+                System.out.println("EL SUPPLIER TIENE UNA SUBCUENTA => " + subAccount.getNameAccount());
+                if( accountPolicyDao.existsAccountPoliciesBySubAccountId(supplier.getSubAccount().getId()) ) {
+                    accountingPolicyBalance = accountPolicyDao.getAccountPolicyBalanceBySubAccount(supplier.getSubAccount().getId());
+                    subAccount.setBalance( supplier.getSubAccount().getBalance().add(accountingPolicyBalance));
+                    supplier.setBalanceToday(subAccount.getBalance());
+                } else {
+                    subAccount.setBalance(supplier.getBalance());
+                    supplier.setBalanceToday(supplier.getBalance());
+
+                }
+
+            }
+
+            Supplier suppliernew = supplierDao.save(supplier);
             HttpHeaders headers = new HttpHeaders();
             headers.set("success", "the account is update success");
             return new ResponseEntity<Supplier>(suppliernew, headers, HttpStatus.OK);

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -63,13 +64,13 @@ public class SupplierTransactionController {
     public void calcSumPolicy(SupplierTransaction object) {
 
 //               BankTransaction bankTrans = bankTransactionService.findById(bankTransaction.getId()).get();
-        Double ttlBalance = supplierTransactionDao.getTotalSupplierTransBalance(object.getSupplier().getId());
+        BigDecimal ttlBalance = supplierTransactionDao.getTotalSupplierTransBalance(object.getSupplier().getId());
         System.out.println("Balance de transaccion " + ttlBalance);
-        Double bankIniBalance = supplierDao.getInitialBalance(object.getSupplier().getId());
+        BigDecimal bankIniBalance = supplierDao.getInitialBalance(object.getSupplier().getId());
         System.out.println("Balance inicial del banco " + bankIniBalance);
 //               bankTrans.getBank().setBalance(bankBalance + ttlBalance);
         Supplier supplier = supplierDao.findSupplierById(object.getSupplier().getId());
-        supplier.setBalanceToday(bankIniBalance + ttlBalance);
+        supplier.setBalanceToday(bankIniBalance.add( ttlBalance));
         supplierDao.save(supplier);
         SubAccount subAccount = subAccountDao.findById(supplier.getSubAccount().getId()).get();
 
@@ -89,8 +90,8 @@ public class SupplierTransactionController {
             subAccount = subAccountDao.findById(sa.getSubAccount().getId()).get();
             System.out.println("SUBACCOUNT NAME "+ subAccount.getNameAccount());
             System.out.println("SUBACCOUNT BALANCE "+ subAccount.getBalance());
-            accountPolicyDao.getBalanceTotal(subAccount.getId());
-            subAccount.setBalanceToday(subAccount.getBalance() + accountPolicyDao.getBalanceTotal(subAccount.getId()));
+            accountPolicyDao.getAccountPolicyBalanceBySubAccount(subAccount.getId());
+            subAccount.setBalance(subAccount.getBalance().add( accountPolicyDao.getAccountPolicyBalanceBySubAccount(subAccount.getId())));
             subAccountDao.save(subAccount);
         }
     }

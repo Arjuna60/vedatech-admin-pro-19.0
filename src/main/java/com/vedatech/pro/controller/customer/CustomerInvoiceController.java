@@ -7,6 +7,7 @@ import com.vedatech.pro.model.invoice.InvoiceItems;
 import com.vedatech.pro.model.invoice.jaxb.Comprobante;
 import com.vedatech.pro.repository.customer.CustomerDao;
 import com.vedatech.pro.repository.invoice.InvoiceDao;
+import com.vedatech.pro.service.CfdiService;
 import com.vedatech.pro.service.customer.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,13 @@ public class CustomerInvoiceController {
     public final CustomerService customerService;
     public final CustomerDao customerDao;
     public final InvoiceDao invoiceDao;
+    public final CfdiService cfdiService;
 
-    public CustomerInvoiceController(CustomerService customerService, CustomerDao customerDao, InvoiceDao invoiceDao) {
+    public CustomerInvoiceController(CustomerService customerService, CustomerDao customerDao, InvoiceDao invoiceDao, CfdiService cfdiService) {
         this.customerService = customerService;
         this.customerDao = customerDao;
         this.invoiceDao = invoiceDao;
+        this.cfdiService = cfdiService;
     }
 
     //-------------------Received Xml Customer File--------------------------------------------------------
@@ -57,16 +60,23 @@ public class CustomerInvoiceController {
         System.out.println("Comprobante " + comprobante.toString());
         StringReader com = new StringReader(comprobante);
         JAXBContext context = null;
+
+
         try {
 
-            context = JAXBContext.newInstance(Comprobante.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            Comprobante unmarshal = (Comprobante) unmarshaller.unmarshal(com);
-            System.out.println(unmarshal.getEmisor().getNombre());
-            System.out.println(unmarshal.getReceptor().getNombre());
-            System.out.println(unmarshal.getSubTotal());
-            System.out.println(unmarshal.getTotal());
-            Comprobante.Addenda addenda = unmarshal.getAddenda();
+//            context = JAXBContext.newInstance(Comprobante.class);
+           Comprobante unmarshal = (Comprobante) cfdiService.contextFile(Comprobante.class, comprobante);
+//            Unmarshaller unmarshaller = context.createUnmarshaller();
+//            Comprobante unmarshal = (Comprobante) unmarshaller.unmarshal(com);
+//            System.out.println(unmarshal.getEmisor().getNombre());
+//            System.out.println(unmarshal.getReceptor().getNombre());
+//            System.out.println("ADDENDA " +  unmarshal.getAddenda().getId());
+
+//            System.out.println(unmarshal.getSubTotal());
+//            System.out.println(unmarshal.getTotal());
+//            Comprobante.Addenda addenda = unmarshal.getAddenda();
+//            List<Object> list = addenda.getAny();
+//            System.out.println("ADDENDA " + list);
 
             customer.setCompany(unmarshal.getReceptor().getNombre());
             invoice.setFecha(unmarshal.getFecha().toGregorianCalendar());
@@ -104,7 +114,6 @@ public class CustomerInvoiceController {
                         InvoiceItems invoiceItems = new InvoiceItems();
 
                         System.out.println("Cantidad " + c.getCantidad().toString() + " Descripcion " + c.getDescripcion().toString() + " Valor Unitatio " + c.getValorUnitario().toString() + " SubTotal " + c.getImporte().toString());
-
 
                         invoiceItems.setCantidad(c.getCantidad());
                         invoiceItems.setDescripcion(c.getDescripcion());
@@ -186,7 +195,7 @@ public class CustomerInvoiceController {
     @RequestMapping(value = "/getAllInvoiceCustomer", method = RequestMethod.GET)
     public ResponseEntity<List<Invoice>> getAllBankTransaction() {
 
-        List<Invoice> invoiceList = (List<Invoice>) invoiceDao.findAll();
+        List<Invoice> invoiceList = (List<Invoice>) invoiceDao.findAllInvoicesByCustomer();
         if (invoiceList.isEmpty()) {
             headers.set("error", "no existen movimientos a la cuentas del Cliente");
             return new ResponseEntity<List<Invoice>>(headers, HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND

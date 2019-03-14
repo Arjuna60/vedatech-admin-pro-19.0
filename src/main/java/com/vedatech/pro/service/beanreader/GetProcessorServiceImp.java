@@ -54,7 +54,7 @@ public class GetProcessorServiceImp implements GetProcessorService {
                     new Optional(),
                     new Optional(),
                     new Optional(),
-                    new ParseDouble(), // Balance
+                    new ParseBigDecimal(), // Balance
                     new Optional(new ParseBool()), // married
             };
 

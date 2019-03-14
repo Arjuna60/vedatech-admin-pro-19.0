@@ -75,6 +75,7 @@ public class BankController {
 
         }
 
+
         Bank newBank = bankDao.findBankByAccountNumber(bank.getAccountNumber());
 
         HttpHeaders headers = new HttpHeaders();
@@ -94,7 +95,7 @@ public class BankController {
             /* Se busca la subcuenta para agregar a la cuenta bancaria*/
             SubAccount subAccount = subAccountService.findById(bank.getSubAccount().getId()).get();
              if (bankTransactionDao.getTotalBankTransBalance(bank.getId()) != null ) {
-                 bank.setBalanceToday(bank.getBalance() + bankTransactionDao.getTotalBankTransBalance(bank.getId()));
+                 bank.setBalanceToday(bank.getBalance().add( bankTransactionDao.getTotalBankTransBalance(bank.getId())));
              }
              bank.setBalanceToday(bank.getBalance());
             bankService.save(bank);

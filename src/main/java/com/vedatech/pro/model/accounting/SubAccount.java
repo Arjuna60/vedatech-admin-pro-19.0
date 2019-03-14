@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -21,10 +22,7 @@ public class SubAccount extends BaseEntity {
     private String accountNumber;
 
     @Column
-    private Double balance;
-
-    @Column
-    Double balanceToday;
+    private BigDecimal balance;
 
     @Column
     private Boolean status;

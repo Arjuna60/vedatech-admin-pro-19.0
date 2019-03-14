@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 @Getter
@@ -37,10 +38,10 @@ public class Bank extends BaseEntity {
     private String observation;
 
     @Column
-    private Double balance;
+    private BigDecimal balance;
 
     @Column
-    private Double balanceToday;
+    private BigDecimal balanceToday;
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="sub_account_id")

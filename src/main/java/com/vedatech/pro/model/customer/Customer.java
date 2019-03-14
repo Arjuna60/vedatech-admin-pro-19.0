@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -21,8 +22,10 @@ public class Customer extends ContactInfo {
 
     private String company;
     private String displayName;
+    private String storeNum;
     private Boolean status;
-    private Double balance;
+    private BigDecimal balance;
+    private BigDecimal budget;
     @Column(name = "customer_rfc")
     private String customerRfc;
 

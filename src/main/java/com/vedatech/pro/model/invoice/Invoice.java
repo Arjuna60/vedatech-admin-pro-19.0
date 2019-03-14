@@ -6,6 +6,7 @@ import com.vedatech.pro.model.accounting.AccountPolicy;
 import com.vedatech.pro.model.accounting.SubAccount;
 import com.vedatech.pro.model.bank.Bank;
 import com.vedatech.pro.model.customer.Customer;
+import com.vedatech.pro.model.product.Product;
 import com.vedatech.pro.model.supplier.Supplier;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,7 @@ public class Invoice extends BaseEntity {
     private GregorianCalendar fechaPago;
     private String condicionesDePago;
     private BigDecimal subTotal;
+    private BigDecimal impuesto;
     private BigDecimal total;
     private BigDecimal pago;
     private String folio;
@@ -49,5 +51,9 @@ public class Invoice extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "invoice_id")
     private List<InvoiceItems> invoiceItems;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "products_id")
+    private List<Product> products;
 
 }

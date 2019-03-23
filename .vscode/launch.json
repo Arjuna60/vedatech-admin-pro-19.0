@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - VedaTechAdminProApplication",
+      "request": "launch",
+      "mainClass": "com.vedatech.pro.VedaTechAdminProApplication",
+      "projectName": "vedatech-pro"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+Id,Name,Account,Balance
+1,Caja Chica,100-01-00,0
+2,Fondo fijo de caja,100-02-00,0
+3,Bancos,100-03-00,0
+4,Inversiones,100-04-00,0
+5,Clientes,100-05-00,0
+6,Deudores diversos,100-06-00,0
+7,Inventarios (de mercancias),100-07-00,0
+8,Inventario (de materias primas),100-08-00,0
+9,Almacen,100-09-00,0
+10,IVA acreditable,100-10-00,0
+11,Documentos por cobrar,100-11-00,0
+12,Anticipos a proveedores,100-12-00,0
+13,Mercancias en transito,100-13-00,0
+14,Pasivo Circulante,200-01-00,0
+15,Pasivo Fijo,200-02-00,0
+16,Pasivo Diferido,200-03-00,0
+17,Capital Social Fijo,300-01-00,0
+18,Capital Social Variable,300-02-00,0
+19,Reserva Legal,300-03-00,0
+20,Resultado del Ejercicio,300-04-00,0
+21,Resultado de Ejercicios anteriores,300-05-00,0
+22,Ventas,400-01-00,0
+23,Productos Financieros,400-02-00,0
+24,Otros Ingresos,400-03-00,0
+25,Devoluciones sobre compras,400-04-00,0
+26,Rebajas sobre compras,400-05-00,0
+27,Bonficaciones sobre compa,400-06-00,0
+28,Descuentos sobre compras,400-07-00,0
+29,Uilidad en cambios,400-08-00,0
+30,Compras,500-01-00,0
+31,Gastos sobre compras,500-02-00,0
+32,Devoluciones sobre ventas,500-03-00,0
+33,Rebajas sobre ventas,500-04-00,0
+34,Bonificaciones sobre ventas,500-05-00,0
+35,Descuentos sobre ventas,500-06-00,0
+36,Costo de ventas,500-07-00,0
+37,Gastos de Venta,500-08-00,0
+38,Gastos de Produccion,500-09-00,0
+39,Gastos de administracion,500-10-00,0
+40,Gastos financieros,500-11-00,0
+41,Otros gastos,500-12-00,0
+42,"Impuestos causados: ISR (Impuesto Sobre la Renta), PTU   ",500-13-00,0

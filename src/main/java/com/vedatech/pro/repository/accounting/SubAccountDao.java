@@ -19,7 +19,8 @@ public interface SubAccountDao extends CrudRepository<SubAccount, Long> {
     @Query("SELECT  e.balance FROM SubAccount e where e.id = ?1")
     BigDecimal getSubAccountBalance(Long id);
 
-    SubAccount findByCustomerId(Long id);
+    //SubAccount findByCustomerId(Long id);
 
-
+    List<SubAccount> findAllByAccountType_Id(Long Id);
+    Boolean existsSubAccountByAccountNumber(String accountNumber);
 }

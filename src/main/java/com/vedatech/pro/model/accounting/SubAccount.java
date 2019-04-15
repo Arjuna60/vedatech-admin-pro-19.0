@@ -33,10 +33,20 @@ public class SubAccount extends BaseEntity {
     @JsonIgnoreProperties("subAccount")
     private AccountingType accountType;
 
-    @OneToOne(fetch= FetchType.LAZY)
+   /* @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="customer_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Customer customer;
+    Customer customer;*/
 
-
+    @Override
+    public String toString() {
+        return "SubAccount{" +
+                "nameAccount='" + nameAccount + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", balance=" + balance +
+                ", status=" + status +
+                ", accountType=" + accountType +
+//                ", customer=" + customer +
+                '}';
+    }
 }

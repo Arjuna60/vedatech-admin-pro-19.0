@@ -2,6 +2,7 @@ package com.vedatech.pro.controller.accounting;
 
 
 import com.vedatech.pro.model.accounting.SubAccount;
+import com.vedatech.pro.repository.accounting.SubAccountDao;
 import com.vedatech.pro.service.accounting.subacc.RepositorySubAccount;
 import com.vedatech.pro.service.accounting.subacc.SubAccountService;
 import org.springframework.http.HttpHeaders;
@@ -19,18 +20,21 @@ import java.util.Optional;
 public class SubAccountController {
 
     public final SubAccountService subAccountService;
-    public final RepositorySubAccount subAccount;
+    public final SubAccountDao subAccountDao;
 
-    public SubAccountController(SubAccountService subAccountService, RepositorySubAccount subAccount) {
+    public SubAccountController(SubAccountService subAccountService, SubAccountDao subAccountDao) {
         this.subAccountService = subAccountService;
-        this.subAccount = subAccount;
+        this.subAccountDao = subAccountDao;
     }
 
 //-------------------Create a Bank Account--------------------------------------------------------
 
     @RequestMapping(value = "/addSubAccount/", method = RequestMethod.POST)
     public ResponseEntity<SubAccount> createUser(@RequestBody SubAccount subAccount, UriComponentsBuilder ucBuilder) {
-        //System.out.println("Creating User " + subAccount.getNameAccount() );
+
+        System.out.println("SUBACCOUNT " + subAccount.toString());
+        //Sy
+        // stem.out.println("Creating User " + subAccount.getNameAccount() );
 
 /*
 
@@ -43,7 +47,7 @@ public class SubAccountController {
 */
 
 
-        subAccountService.save(subAccount);
+        subAccountDao.save(subAccount);
      //  SubAccount newsubAccount = subAccountService.findBankByAccountNumber(bank.getAccountNumber());
 
         HttpHeaders headers = new HttpHeaders();
@@ -60,7 +64,7 @@ public class SubAccountController {
 
         try {
             //   Bank currentBankAcc = bankService.findBankById(id);
-             SubAccount subAccountOrigin = subAccountService.findById(subAccount.getId()).get();
+//             SubAccount subAccountOrigin = subAccountService.findById(subAccount.g);
 
             subAccountService.save(subAccount);
             HttpHeaders headers = new HttpHeaders();
@@ -146,12 +150,17 @@ public class SubAccountController {
     }
 
 
-    @RequestMapping(value = "/getSub", method = RequestMethod.GET)
-    public ResponseEntity<List<SubAccount>> getSubAcc() {
+    @RequestMapping(value = "/getSubAccounts/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<SubAccount>> getSubAcc(@PathVariable("id") Long id) {
         HttpHeaders headers = new HttpHeaders();
 
+        List<SubAccount> subAccounts = subAccountDao.findAllByAccountType_Id(id);
 
-        return new ResponseEntity<List<SubAccount>>( HttpStatus.OK);
+        for (SubAccount s : subAccounts) {
+            System.out.println("Sub Account Name " + s.getId());
+        }
+
+        return new ResponseEntity<List<SubAccount>>(subAccounts, HttpStatus.OK);
     }
 
 

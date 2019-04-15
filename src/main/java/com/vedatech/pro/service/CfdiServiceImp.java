@@ -2,10 +2,13 @@ package com.vedatech.pro.service;
 
 import com.vedatech.pro.model.customer.Customer;
 import com.vedatech.pro.model.invoice.Invoice;
+import com.vedatech.pro.model.invoice.InvoiceItems;
+import com.vedatech.pro.model.invoice.SalesByProduct;
 import com.vedatech.pro.model.invoice.jaxb.Comprobante;
 import com.vedatech.pro.model.supplier.Supplier;
 import com.vedatech.pro.repository.customer.CustomerDao;
 import com.vedatech.pro.repository.invoice.InvoiceDao;
+import com.vedatech.pro.repository.invoice.InvoiceItemsDao;
 import com.vedatech.pro.repository.supplier.SupplierDao;
 import org.springframework.http.converter.xml.Jaxb2CollectionHttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -14,9 +17,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CfdiServiceImp implements CfdiService {
@@ -24,11 +25,13 @@ public class CfdiServiceImp implements CfdiService {
     public final CustomerDao customerDao;
     public final SupplierDao supplierDao;
     public final InvoiceDao invoiceDao;
+    public final InvoiceItemsDao invoiceItemsDao;
 
-    public CfdiServiceImp(CustomerDao customerDao, SupplierDao supplierDao, InvoiceDao invoiceDao) {
+    public CfdiServiceImp(CustomerDao customerDao, SupplierDao supplierDao, InvoiceDao invoiceDao, InvoiceItemsDao invoiceItemsDao) {
         this.customerDao = customerDao;
         this.supplierDao = supplierDao;
         this.invoiceDao = invoiceDao;
+        this.invoiceItemsDao = invoiceItemsDao;
     }
 
     @Override
@@ -122,8 +125,11 @@ public class CfdiServiceImp implements CfdiService {
          }
 
         invoice.setTotal(comprobante.getTotal());
-       Invoice invoiceSaved = invoiceDao.save(invoice);
+//        getConceptos(comprobante);
+        invoice.setInvoiceItems(getConceptos(comprobante));
+        Invoice invoiceSaved = invoiceDao.save(invoice);
         calculateBalance(invoiceSaved);
+        stadisticVolumeProducts();
 
     }
 
@@ -167,6 +173,46 @@ public class CfdiServiceImp implements CfdiService {
 //            supplierDao.save(c);
 //        }
     }
+
+      public List<InvoiceItems> getConceptos(Comprobante comprobante){
+
+        List<Comprobante.Conceptos.Concepto> conceptos = comprobante.getConceptos().getConcepto();
+        List<InvoiceItems> itemsList = new ArrayList<>();
+        for (Comprobante.Conceptos.Concepto c: conceptos) {
+            InvoiceItems invoiceItems = new InvoiceItems();
+            System.out.println("Descripcion " + c.getDescripcion() + " Num Identificacion " + c.getNoIdentificacion());
+            invoiceItems.setCantidad(c.getCantidad());
+            invoiceItems.setClaveProdServ(c.getClaveProdServ());
+            invoiceItems.setClaveUnidad(c.getNoIdentificacion());
+            invoiceItems.setDescripcion(c.getDescripcion());
+            invoiceItems.setImporte(c.getImporte());
+            invoiceItems.setValorUnitario(c.getValorUnitario());
+            invoiceItems.setUnidad(c.getUnidad());
+            itemsList.add(invoiceItems);
+        }
+
+                return itemsList;
+        }
+
+        public void stadisticVolumeProducts () {
+
+            List<Object[]> results = invoiceItemsDao.getData();
+            List<SalesByProduct> salesByProductList = invoiceItemsDao.getDataSales();
+
+            for (int i = 0; i < results.size(); i++) {
+                Object[] arr = results.get(i);
+                for (int j = 0; j < arr.length; j++) {
+                    System.out.print(arr[j] + " ");
+                }
+                System.out.println();
+            }
+
+            for ( SalesByProduct s: salesByProductList ) {
+                System.out.println("Sales by Product " + s.getDescripcion() + "  " + s.getCantidad());
+            }
+
+
+        }
 
 
 }

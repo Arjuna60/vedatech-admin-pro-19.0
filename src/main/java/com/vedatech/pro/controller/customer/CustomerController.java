@@ -29,24 +29,33 @@ public class CustomerController {
 //-------------------Create a Bank Account--------------------------------------------------------
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public ResponseEntity<Customer> createUser(@RequestBody Customer customer) {
+    public ResponseEntity<List<Customer>> createUser(@RequestBody Customer customer) {
         System.out.println("Creating User ");
         HttpHeaders headers = new HttpHeaders();
 
         try {
+            if (customer.getStatus() != false) {
+                if (subAccountDao.existsSubAccountByAccountNumber(customer.getSubAccount())) {
+                    System.out.println("Existe una subcuenta " + customer.getSubAccount());
+                }
+                System.out.println("LA CUENTA NO EXISTE");
+            }
+
 //            SubAccount subAccount = subAccountDao.findById(customer.getSubAccount().getId()).get();
 //            subAccount.setBalance(customer.getBalance());
 //            subAccountDao.save(subAccount);
 //            customer.setSubAccount(subAccount);
 
             customerService.save(customer);
-            headers.set("accepted ok","bank account is ok");
-            return new ResponseEntity<Customer>(customer, headers, HttpStatus.CREATED);
+            List<Customer> customers = customerService.findAll();
+            headers.set("accepted ok","cliente actualizado con exito");
+            String message ="Cliente Actualizado con exito";
+            return new ResponseEntity<List<Customer>>(customers, headers, HttpStatus.CREATED);
         }catch (JDBCConnectionException e){
 
             headers.set("error","Error al grabar datos en el servidor intente de nuevo");
 
-            return new ResponseEntity<Customer>(headers, HttpStatus.CREATED);
+            return new ResponseEntity<List<Customer>>(headers, HttpStatus.CREATED);
 
         }
 
